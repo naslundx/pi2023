@@ -1,7 +1,9 @@
 name: Deploy
 
 on:
-  push
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -14,4 +16,4 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "pi2023"
-          heroku_email: "naslundx@gmail.com"
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
