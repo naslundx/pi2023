@@ -67,11 +67,6 @@ body,
   height: 100vh;
 }
 
-.y.snap-container > div:first-child {
-  line-height: 1.3;
-  font-size: 64px;
-}
-
 /* Coloring */
 
 .snap-container > div:nth-child(even) {

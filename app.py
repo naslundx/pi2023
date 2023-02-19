@@ -25,14 +25,15 @@ import http.client
 
 
 # === FRONTEND ===
+# TODO change from src to public when building works
 app = Flask(
     __name__,
     static_url_path='',
-    static_folder='public/')
+    static_folder='src/')
 
 @app.get("/")
 def hello_world():
-    return send_from_directory('public', 'index.html')
+    return send_from_directory('src', 'index.html')
 
 
 # === BACKEND ===
