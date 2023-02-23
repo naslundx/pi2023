@@ -11,8 +11,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <!-- Bootstrap (?) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <!-- MathJax -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -21,16 +21,34 @@
     <main>
         <div class="holster">
             <div class="snap-container y mandatory-scroll-snapping" dir="ltr">
-                <div class="snap-container x mandatory-scroll-snapping" dir="ltr">
+                <!-- <div class="snap-container x mandatory-scroll-snapping" dir="ltr">
                   <div>Pi-dagen inträffar den 14 mars varje år. Scrolla för att få veta mer</div>
                   <div>lite korta fakta</div>
                   <div><img src="../static/pi.png"/></div>
                   <div>4</div>
                   <div>5</div>
-                </div>
+                </div> -->
                 <div class="snap-container x mandatory-scroll-snapping" dir="ltr">
-                  <div>hur räknar man ut pi</div>
-                  <div>geometriskt</div>
+                  <div>
+                    <div class="infocontainer">
+                      <h1>Hur räknar man ut \(\pi\)?</h1>
+                      <p>Idag vet vi att pi är ungefär 3,14 men att det exakta värdet har <strong>oändligt många decimaler</strong>.</p>
+                      <div class="imagecontainer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Pi-unrolled-720.gif">
+                      </div>
+                      <p>Att veta så många som möjligt är bara skoj idag, men förr i tiden var det ett seriöst forskningsområde!</p>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="infocontainer">
+                      <h2>Redan i Bibeln ges en approximation:</h2>
+                      <blockquote class="blockquote text-right">
+                        <p class="mb-0">Han gjorde vidare Havet i gjutgods. Det var cirkelrunt och mätte tio alnar från kant till kant; det var fem alnar högt och 30 alnar i omkrets.</p>
+                        <footer class="blockquote-footer"><cite title="Source Title">1 Kung 7:23 </cite></footer>
+                      </blockquote>
+                      <p>30 alnar i omkrets och 10 alnar i diameter ger värdet \(\pi\approx\frac{30}{10}=3\)</p>
+                    </div>
+                  </div>
                   <div>formler</div>
                   <div><p>
                     When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
@@ -38,7 +56,7 @@
                   </p></div>
                   <div>5</div>
                 </div>
-                <div class="snap-container x mandatory-scroll-snapping" dir="ltr">
+                <!-- <div class="snap-container x mandatory-scroll-snapping" dir="ltr">
                   <div>var används pi</div>
                   <div>olika användningsområden</div>
                   <div>formler</div>
@@ -54,7 +72,7 @@
                   <div>avslutning</div>
                   <div>gjord av</div>
                   <div>dela till sociala medier</div>
-                </div>
+                </div> -->
             </div>
         </div>
     </main>
