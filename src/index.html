@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pi</title>
-    <link rel="stylesheet" href="./style2.css">
+    <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="../static/favicon.ico" type="image/x-icon">
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -23,28 +23,53 @@
         Hur stort är pi?
       </h1>
       <div id="info">
-        <p>Pi är ett irrationellt tal bla bla bla.</p>
-        <p>Vi kan inte riktigt föreställa oss. eller?</p>
+        <p>Pi har oändligt många decimaler.</p>
+        <p>Men någon borde ha ett sjätte sinne för decimaler.</p>
       </div>
-      <div id="guess">
-        <p>Om du hör en decimal varje sekund, hur länge måste du vänta innan du hör <span id="value"></span>?</p>
-        <div class="slidecontainer">
-          <!-- https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
-          <input type="range" min="1" max="10000" value="1" class="slider" id="myRange" oninput="rangeInput()">
-        </div>
-        <p id="timedescriptor">0 sekunder</p>
-        <input type="text" id="name" placeholder="namn"/>
-        
-        <button onclick="submitGuess()">Gissa</button>
-      </div>
-      <div id="highscore">
-        <h2>Topplista</h2>
-        <p id="stats"></p>
-        <table>
+      <div id="gamecontainer">
+        <div id="start">
+          Fyll i ditt namn och börja!
 
-        </table>
+          <input type="text" id="name" placeholder="namn"/>
+          <button onclick="start()">Spela!</button>
+        </div>
+        <div id="guess" class="invisible">
+          <h1>Fråga <span id="index">1</span> av 3</h1>
+
+          <p><span id="desc"></span> <span id="value"></span>?</p>
+
+          <div class="slidecontainer">
+            <!-- https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
+            <input type="range" min="1" max="10000" value="1" class="slider" id="myRange" oninput="rangeInput()">
+          </div>
+          <p id="descriptor">0 sekunder</p>
+          <button onclick="guess()">Spela!</button>
+        </div>
+        <div id="gamestats" class="invisible">
+          Du fick <span id="gamescore">0</span> poäng! Här är dina svar jämfört med rätta svar:
+          <table id="gamestats">
+            <tr>
+              <th>Decimaler</th>
+              <th>Du svarade</th>
+              <th>Rätt svar</th>
+            </tr>
+          </table>
+
+          <button onclick="toHighscore()">Se topplistan</button>
+        </div>
+        <div id="highscore" class="invisible">
+          <h2>Topplista</h2>
+          <table id="highscore">
+            <tr>
+              <th>Namn</th>
+              <th>Tid</th>
+              <th>Poäng</th>
+            </tr>
+          </table>
+
+          <button onclick="playAgain()">Spela igen!</button>
+        </div>
       </div>
- 
     </main>
 	<script src="script.js"></script>
   </body>

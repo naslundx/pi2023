@@ -1,19 +1,79 @@
+// =================
+// UI elements
+
 const nameInput = document.querySelector("#name");
 const numberInput = document.querySelector("#sequence")
 const statsParagraph = document.querySelector("#stats");
 const highScoreTable = document.querySelector("#highscore table");
 const rangeSelector = document.querySelector("#myRange")
 const timeDescriptor = document.querySelector("#timedescriptor")
-const valueSpan = document.querySelector("#value")
+const descSpan = document.querySelector("span#desc")
+const valueSpan = document.querySelector("span#value")
+const indexSpan = document.querySelector("span#index")
+const scoreSpan = document.querySelector("span#gamescore")
 
-var generated_id = null;
-var user_id = null;
+const ctrStart = document.querySelector("div#start")
+const ctrGuess = document.querySelector("div#guess")
+const ctrGamestats = document.querySelector("div#gamestats")
+const ctrHighscore = document.querySelector("div#highscore")
+
+
+// =================
+// Game logic
+
+var game_id = 12;
+var user_id = 12;
+let generated_id = null;
+let generated_string = null;
+let game_index = 0;
+
+// =================
+// Post-game logic
+
+let gameStats = {};
+let highscore = {};
+let stats = {};
+
+// =================
+// Helpers
+
+function encodeQueryData(url, data) {
+    const ret = [];
+    for (let d in data)
+      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    return url + "?" + ret.join('&');
+ }
+
+ function fillTable(selector, columns, data) {
+    const table = document.querySelector(selector);
+    const rows = document.querySelectorAll(selector + " tr:not(:first-child)")
+    rows.forEach(row => row.remove());
+
+    data.forEach(item => {
+        let newRow = '<tr>';
+        columns.forEach(column => {
+            newRow += '<td>' + item[column] + '</td>';
+        })
+        newRow += '</tr>';
+        table.innerHTML += newRow;
+    });
+ }
+
+// =================
+// Guess UI
 
 function rangeInput() {
     timeDescriptor.innerText = prettyTimeOutput(rangeSelector.value);
 }
 
+function playAgain() {
+    game_index=0;
+    start();
+}
+
 function prettyTimeOutput(seconds) {
+    // TODO depend on type
+
     if (seconds < 60) {
         return `${seconds} sekunder`
     }
@@ -23,78 +83,124 @@ function prettyTimeOutput(seconds) {
     return result;
 }
 
-function generate() {
-    fetch('generate')
+function updateUI() {
+    console.log(game_index);
+
+    [ctrStart, ctrGuess, ctrGamestats, ctrHighscore].forEach(x => {
+        x.classList.add("invisible");
+    });
+
+    if (game_index == 4) {
+        ctrGamestats.classList.remove("invisible");
+        fillTable('table#gamestats', ['value', 'guess', 'position'], gameStats.stats);
+        scoreSpan.innerText = gameStats.score;
+        return;
+    }
+
+    if (game_index == 5) {
+        console.log('fixar')
+        ctrHighscore.classList.remove("invisible");
+        fillTable('table#highscore', ['name', 'timestamp', 'score'], highscore.highscore);
+        return;
+    }
+
+    if (game_index <= 0) {
+        ctrStart.classList.remove("invisible");
+        return;
+    }
+
+    // Game info
+    const descs = {
+        1: 'Om du hör en decimal varje sekund, hur länge måste du vänta innan du hör',
+        2: 'Om du går en meter för varje decimal, hur långt måste du gå innan du hör',
+        3: 'yada yada yada',
+    };
+    descSpan.innerText = descs[game_index];
+    valueSpan.innerText = generated_string; 
+    indexSpan.innerText = game_index;
+    ctrGuess.classList.remove("invisible");
+}
+
+// ==================
+// Gameplay
+
+function start() {
+    const name = nameInput.value;
+    const url = encodeQueryData('start', {name});
+
+    fetch(url)
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
-            generated_id = data.generated_id;
-            user_id = data.user_id;
-            valueSpan.innerText = data.value;
-        });
+            game_id = data.game_id;
+            user_id = data.user_id;            
+        })
+        .then(next);    
 }
 
-generate();
+function next() {
+    const url = encodeQueryData('next', {
+        user_id, game_id
+    });
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            game_index++;
+            console.log(data);
+            if (data.status == "done") {
+                getGameStats();
+                return;
+            }
+            generated_id = data.generated_id;
+            generated_string = data.value;
+        })
+        .then(updateUI);
+}
 
-function submitGuess() {
-    const name = nameInput.value;
+function guess() {
     const guess = rangeSelector.value;
 
-    fetch(`guess?user_id=${user_id}&generated_id=${generated_id}&name=${name}&guess=${guess}`)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            showScores();
-        });
-}
-
-function showStats() {
-    fetch('stats')
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            user_count = data['user_count']
-            latest_visit = data['latest_visit']
-            statsParagraph.innerText = `${user_count} deltagare, senast ${latest_visit}.`
-        });
-}
-
-showStats();
-
-function showScores() {
-    fetch('scores')
-        .then(response => response.json())
-        .then(updateTable);
-}
-
-showScores();
-
-function updateTable(data) {
-    console.log(data);
-    tableContents = `
-        <tr>
-        <th></th>
-        <th>Namn</th>
-        <th>Sekvens</th>
-        <th>Gissade</th>
-        <th>Rätt svar</th>
-        <th>Diff</th>
-        <th>När</th>
-        </tr>
-    `;
-    let index = 1;
-    data.forEach(row => {
-        tableContents += `
-            <tr>
-            <td>${index++}</td>
-            <td>${row.name}</td>
-            <td>${row.value}</td>
-            <td>${row.correct}</td>
-            <td>${row.guess}</td>
-            <td>${Math.abs(row.correct - row.guess)}</td>
-            <td>${row.timestamp}</td>
-            </tr>
-        `;
+    const url = encodeQueryData('guess', {
+        user_id, game_id, generated_id, guess
     });
-    highScoreTable.innerHTML = tableContents;
+
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+        })
+        .then(next);
+
 }
+
+// ==========================
+// Stats and highscore
+
+function toHighscore() {
+    game_index++;
+    updateUI();
+}
+
+function getGameStats() {
+    const url = encodeQueryData('game_stats', {game_id});
+
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            gameStats = data;
+        })
+        .then(updateUI);
+}
+
+function getHighscore() {
+    fetch('highscore')
+        .then(response => response.json())
+        .then((data) => {
+            console.log(data);
+            highscore = data;
+        })
+        .then(updateUI);
+}
+
+getHighscore();
