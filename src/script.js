@@ -17,12 +17,11 @@ const ctrGuess = document.querySelector("div#guess")
 const ctrGamestats = document.querySelector("div#gamestats")
 const ctrHighscore = document.querySelector("div#highscore")
 
-
 // =================
 // Game logic
 
-var game_id = 12;
-var user_id = 12;
+var game_id = null;
+var user_id = null;
 let generated_id = null;
 let generated_string = null;
 let game_index = 0;
@@ -45,6 +44,8 @@ function encodeQueryData(url, data) {
  }
 
  function fillTable(selector, columns, data) {
+    console.log(selector, columns, data);
+
     const table = document.querySelector(selector);
     const rows = document.querySelectorAll(selector + " tr:not(:first-child)")
     rows.forEach(row => row.remove());
@@ -98,7 +99,6 @@ function updateUI() {
     }
 
     if (game_index == 5) {
-        console.log('fixar')
         ctrHighscore.classList.remove("invisible");
         fillTable('table#highscore', ['name', 'timestamp', 'score'], highscore.highscore);
         return;
@@ -126,7 +126,7 @@ function updateUI() {
 
 function start() {
     const name = nameInput.value;
-    const url = encodeQueryData('start', {name});
+    const url = encodeQueryData('start', {name, user_id});
 
     fetch(url)
         .then((response) => response.json())
@@ -178,7 +178,7 @@ function guess() {
 
 function toHighscore() {
     game_index++;
-    updateUI();
+    getHighscore();
 }
 
 function getGameStats() {
@@ -202,5 +202,6 @@ function getHighscore() {
         })
         .then(updateUI);
 }
+
 
 getHighscore();

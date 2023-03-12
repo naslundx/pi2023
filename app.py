@@ -3,6 +3,7 @@ import json
 import http.client
 import psycopg2
 import random
+import os
 
 import http.client
 
@@ -10,7 +11,7 @@ import requests
 
 
 # === DATABASE ===
-DB_URI = 'postgres://pfomexbowvgncu:6580fde90a9ef4507f27b3eef791a60b177a4f8c2188e1c81ed57651e27a84c2@ec2-34-241-90-235.eu-west-1.compute.amazonaws.com:5432/deo9s6qdei6ei1'
+DB_URI = os.environ.get('DATABASE_URL')
 DB_CONN = psycopg2.connect(DB_URI, sslmode='require')
 
 # TODO secure all queries
@@ -62,10 +63,12 @@ def get_score(game_id):
             SUM(ABS(guess.guess - generated.position))
         FROM
             guess
-        INNER JOIN
+        LEFT JOIN
             generated
         ON
-            guess.generated_id = generated.id;
+            guess.generated_id = generated.id
+        WHERE
+            guess.game_id = '{game_id}';
     '''
     score = db_query(sql_query, True)
     return score
@@ -86,21 +89,33 @@ def hello_world():
 # === BACKEND ===
 @app.get("/start")
 def endpoint_start():
-    # skapa ny user
+    user_id = request.args.get('user_id')
     username = request.args.get('name')
-    sql_query = f'''
-        INSERT INTO users(displayname)
-        VALUES
-            ('{username}')
-        RETURNING id;
-    '''
-    user_id = db_exec(sql_query, True)
+    if not user_id:
+        # skapa ny user
+        sql_query = f'''
+            INSERT INTO users(displayname)
+            VALUES
+                ('{username}')
+            RETURNING id;
+        '''
+        user_id = db_exec(sql_query, True)
+    else:
+        # verify user exists
+        sql_query = f'''
+            SELECT COUNT(*)
+            FROM users
+            WHERE id='{user_id}' AND displayname='{username}';
+        '''
+        exists = db_query(sql_query, True)
+        if not exists:
+            return { "error": "invalid game" }, 400
 
     # skapa ny game
     sql_query = f'''
         INSERT INTO game(user_id)
         VALUES
-            ({user_id})
+            ('{user_id}')
         RETURNING id;
     '''
     game_id = db_exec(sql_query, True)
@@ -120,18 +135,17 @@ def endpoint_next():
     sql_query = f'''
         SELECT COUNT(*)
         FROM game
-        WHERE id={game_id} AND user_id={user_id};
+        WHERE id='{game_id}' AND user_id='{user_id}';
     '''
-    count = db_query(sql_query, True)
-    if count != 1:
-        print('does not exist')
+    exists = db_query(sql_query, True)
+    if not exists:
         return { "error": "invalid game" }, 400
     
     # kolla hur många gissningar som gjorts
     sql_query = f'''
         SELECT COUNT(*)
         FROM guess
-        WHERE game_id={game_id};
+        WHERE game_id='{game_id}';
     '''
     count = db_query(sql_query, True)
     if count >= 3:
@@ -143,7 +157,7 @@ def endpoint_next():
     sql_query = f'''
         INSERT INTO generated(user_id, value, position)
         VALUES
-            ({user_id}, {value}, {correct_position})
+            ('{user_id}', {value}, {correct_position})
         RETURNING id;
     '''
     generated_id = db_exec(sql_query, True)
@@ -164,11 +178,19 @@ def endpoint_guess():
     generated_id = request.args.get('generated_id')
     guess = request.args.get('guess')
 
-    # TODO validera user+game+generated
+    # validera user+game
+    sql_query = f'''
+        SELECT COUNT(*)
+        FROM game
+        WHERE id='{game_id}' AND user_id='{user_id}';
+    '''
+    count = db_query(sql_query, True)
+    if count != 1:
+        print('does not exist')
+        return { "error": "invalid game" }, 400
     
     # TODO validera guess
     try:
-        user_id = int(user_id)
         generated_id = int(generated_id)
         guess = int(guess)
     except (ValueError, AssertionError):
@@ -179,7 +201,7 @@ def endpoint_guess():
         sql_query = f'''
             INSERT INTO guess(generated_id, game_id, guess)
             VALUES
-                ({generated_id}, {game_id}, {guess});
+                ({generated_id}, '{game_id}', {guess});
         '''
         db_exec(sql_query)
     except psycopg2.errors.UniqueViolation:
@@ -224,7 +246,7 @@ def endpoint_game_stats():
         ON
             guess.generated_id=generated.id
         WHERE
-            game_id={game_id}
+            game_id='{game_id}'
         ORDER BY
             timestamp;
     '''

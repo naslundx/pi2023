@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="../static/favicon.ico" type="image/x-icon">
     <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
     <!-- Bootstrap (?) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
     <!-- MathJax -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -25,6 +25,8 @@
       <div id="info">
         <p>Pi har oändligt många decimaler.</p>
         <p>Men någon borde ha ett sjätte sinne för decimaler.</p>
+        <p>Mer info</p>
+        <p>Annons</p>
       </div>
       <div id="gamecontainer">
         <div id="start">
@@ -34,7 +36,7 @@
           <button onclick="start()">Spela!</button>
         </div>
         <div id="guess" class="invisible">
-          <h1>Fråga <span id="index">1</span> av 3</h1>
+          <h2>Fråga <span id="index">1</span> av 3</h2>
 
           <p><span id="desc"></span> <span id="value"></span>?</p>
 
@@ -43,10 +45,12 @@
             <input type="range" min="1" max="10000" value="1" class="slider" id="myRange" oninput="rangeInput()">
           </div>
           <p id="descriptor">0 sekunder</p>
-          <button onclick="guess()">Spela!</button>
+          <div class="center">
+            <button onclick="guess()" class="button"><span>Gissa</span></button>
+          </div>
         </div>
         <div id="gamestats" class="invisible">
-          Du fick <span id="gamescore">0</span> poäng! Här är dina svar jämfört med rätta svar:
+          <p>Liksom i golf gäller det att få så få poäng som möjligt. Såhär svarade du:</p>
           <table id="gamestats">
             <tr>
               <th>Decimaler</th>
@@ -54,12 +58,12 @@
               <th>Rätt svar</th>
             </tr>
           </table>
-
-          <button onclick="toHighscore()">Se topplistan</button>
+          <p>Det betyder att du fick <span id="gamescore">0</span> poäng!</p></p>
+          <button class="button" onclick="toHighscore()"><span>Se topplistan</span></button>
         </div>
         <div id="highscore" class="invisible">
           <h2>Topplista</h2>
-          <table id="highscore">
+          <table id="highscore" class="table">
             <tr>
               <th>Namn</th>
               <th>Tid</th>
@@ -67,7 +71,7 @@
             </tr>
           </table>
 
-          <button onclick="playAgain()">Spela igen!</button>
+          <button class="button" onclick="playAgain()"><span>Spela igen!</span></button>
         </div>
       </div>
     </main>
