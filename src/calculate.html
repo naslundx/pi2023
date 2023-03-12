@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pi</title>
-    <link rel="stylesheet" href="./style2.css">
+    <link rel="stylesheet" href="./calculate.css">
     <link rel="icon" href="../static/favicon.ico" type="image/x-icon">
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -18,34 +18,34 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   </head>
   <body>
+    <div id="cursor"></div>
     <main>
       <h1>
-        Hur stort är pi?
+        Räkna ut pi
       </h1>
       <div id="info">
-        <p>Pi är ett irrationellt tal bla bla bla.</p>
-        <p>Vi kan inte riktigt föreställa oss. eller?</p>
+        <p>Hur kan man räkna ut pi? Ett sätt är med hjälp av slumpen!</p>
+        <p>Om vi ritar upp en kvadrat, och en så stor cirkel som möjligt inuti kvadraten, kan vi räkna ut deras areor:</p>
+        <p>\(A_{\text{cirkel} } = \pi R ^ 2\)</p>
+        <p>\(A_{\text{rektangel} } = (2R)^2\)</p>
+        <p>Vad är förhållandet mellan dem?</p>
+        <p>\(A_c / A_r = \frac{\pi R ^ 2}{(2R)^2} = \frac{\pi}{4}\)</p>
+        <p>Eller, med andra ord:</p>
+        <p>\(\pi = 4A_c / A_r\)</p>
+        <p>Om vi kastar en del pilar, räknar ut vilka som hamnar innanför cirkeln och vilka som hamnar utanför, kan vi med ovanstående formel räkna ut pi.</p>
       </div>
-      <div id="guess">
-        <p>Om du hör en decimal varje sekund, hur länge måste du vänta innan du hör <span id="value"></span>?</p>
-        <div class="slidecontainer">
-          <!-- https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
-          <input type="range" min="1" max="10000" value="1" class="slider" id="myRange" oninput="rangeInput()">
+      <div id="container">
+        <div id="square">
+            <div id="circle">
+            </div>
         </div>
-        <p id="timedescriptor">0 sekunder</p>
-        <input type="text" id="name" placeholder="namn"/>
-        
-        <button onclick="submitGuess()">Gissa</button>
-      </div>
-      <div id="highscore">
-        <h2>Topplista</h2>
-        <p id="stats"></p>
-        <table>
-
-        </table>
-      </div>
- 
+      </div> 
+      <p>Innanför: <span id="inside"></span></p>
+      <p>Utanför: <span id="outside"></span></p>
+      <p>Totalt: <span id="total"></span></p>
+      <p>Ratio: <span id="ratio"></span></p>
+      <p>Pi: <span id="piapprox"></span></p>
     </main>
-	<script src="script.js"></script>
+	<script src="calculate.js"></script>
   </body>
 </html>
