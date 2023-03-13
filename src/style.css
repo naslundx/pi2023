@@ -2,11 +2,12 @@
 * {
     box-sizing: border-box;
     margin: 0;
+    font-family: 'Lato', sans-serif;
 }
 
 body {
     background: rgb(122,114,255);
-    background: linear-gradient(90deg, rgba(122,114,255,0.3) 0%, rgba(217,199,255,0.3) 35%, rgba(164,240,255,0.3) 100%);
+    background: linear-gradient(90deg, rgba(122,114,255,0.3) 0%, rgba(217,199,255,0.3) 50%, rgba(122,114,255,0.3) 100%);
 }
 
 .invisible {
@@ -19,21 +20,49 @@ h1, h2 {
     text-align: center;
 }
 
-#info, #gamecontainer {
+#info, #gamecontainer, #bookad {
+    background-color: rgba(255, 255, 255, 0.5);
     max-width: 768px;
+    margin: 0 auto;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+p {
+    font-size: larger;
+    line-height: 2rem;
+}
+
+/* Decimals */
+
+#decimals {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 4rem;
+    opacity: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
     margin: 0 auto;
 }
 
-#info {
-    background-color: aquamarine;
-    border-radius: 10px;
+#decimals span {
+    margin-left: 0;
+    margin-right: 0;
 }
 
-#gamecontainer {
-    background-color: wheat;
-    border-radius: 10px;
-    margin-top: 10px;
+.marquee span#full {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 300s linear infinite;
+    animation-delay: 2s;
 }
+
+#decimals.display {
+    text-align: center;
+}
+
 
 /* Tables */
 

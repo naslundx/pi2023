@@ -11,6 +11,7 @@ const descSpan = document.querySelector("span#desc")
 const valueSpan = document.querySelector("span#value")
 const indexSpan = document.querySelector("span#index")
 const scoreSpan = document.querySelector("span#gamescore")
+const decimals = document.querySelector("#decimals span");
 
 const ctrStart = document.querySelector("div#start")
 const ctrGuess = document.querySelector("div#guess")
@@ -59,6 +60,22 @@ function encodeQueryData(url, data) {
         table.innerHTML += newRow;
     });
  }
+
+// =================
+// Decimals animation
+
+let decimalOffset = window.innerWidth + 5;
+let animateDecimals = true;
+
+function move() {
+    decimalOffset--;
+    decimals.style.marginLeft = decimalOffset + "px";
+    if (animateDecimals) {
+        setTimeout(move, 20);
+    }
+}
+
+move();
 
 // =================
 // Guess UI
