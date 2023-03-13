@@ -14,6 +14,7 @@ const indexSpan = document.querySelector("span#index")
 const scoreSpan = document.querySelector("span#gamescore")
 const decimals = document.querySelector("#decimals span");
 
+const ctrGame = document.querySelector("div#gamecontainer")
 const ctrStart = document.querySelector("div#start")
 const ctrGuess = document.querySelector("div#guess")
 const ctrGamestats = document.querySelector("div#gamestats")
@@ -22,6 +23,7 @@ const ctrHighscore = document.querySelector("div#highscore")
 const divBooks = document.querySelector("div#bookad");
 
 const btnStart = document.querySelector("#start button");
+const btnGuess = document.querySelector("#guess button")
 
 // =================
 // Game logic
@@ -184,27 +186,6 @@ function prettyOutput(value, mapping) {
             return `${prettyValue} ${suffix}`;
         }
     }
-
-    // if (value < 60*60*24*2) {
-    //     let hours = roundDecimals(value / (60*60), 2);
-    //     return `${hours} timmar`;
-    // }
-    // if (value < 60*60*24*365*1000) {
-    //     let years = roundDecimals(value / (60*60*24*365), 2);
-    //     return `${years} år`;
-    // }
-    // if (value < 60*60*24*365*100*100000) {
-    //     let centuries = roundDecimals(value / (60*60*24*365*100), 2);
-    //     return `${centuries} århundraden`;
-    // }
-
-    // let universes = roundDecimals(value / (60*60*24*365*15000000000), 3);
-    // return `${universes} x universums livstid`;
-
-    // const totalMs = seconds * 1000;
-    // const result = new Date(totalMs).toISOString().slice(11, 19);
-
-    // return result;
 }
 
 function prettyDistanceOutput(value) {
@@ -217,6 +198,7 @@ function prettyThirdOutput(value) {
 
 function updateUI() {
     console.log(game_index);
+    ctrGame.classList.remove('faded');
 
     [ctrStart, ctrGuess, ctrGamestats, ctrHighscore].forEach(x => {
         x.classList.add("invisible");
@@ -262,6 +244,7 @@ function editingName() {
 function start() {
     const name = nameInput.value;
     const url = encodeQueryData('start', {name, user_id});
+    ctrGame.classList.add('faded')
     btnStart.disabled = true;
 
     fetch(url)
@@ -296,15 +279,17 @@ function next() {
             }
             generated_id = data.generated_id;
             generated_string = data.value;
-        })
-        .then(updateUI);
+            updateUI();
+        });
 }
 
 function guess() {
-    const guess = rangeSelector.value;
+    ctrGame.classList.add('faded')
+    btnGuess.disabled = true;
+    const guess = Math.round(logValue);
 
     const url = encodeQueryData('guess', {
-        user_id, game_id, generated_id, guess: Math.round(logValue)
+        user_id, game_id, generated_id, guess
     });
 
     fetch(url)
@@ -312,8 +297,10 @@ function guess() {
         .then((data) => {
             console.log(data);
         })
-        .then(next);
-
+        .then(next)
+        .finally(() => {
+            btnGuess.disabled = false;
+        });
 }
 
 // ==========================
@@ -325,6 +312,7 @@ function toHighscore() {
 }
 
 function getGameStats() {
+    ctrGame.classList.add('faded')
     const url = encodeQueryData('game_stats', {game_id});
 
     fetch(url)
@@ -337,14 +325,29 @@ function getGameStats() {
 }
 
 function getHighscore() {
+    ctrGame.classList.add('faded')
     fetch('highscore')
         .then(response => response.json())
         .then((data) => {
             console.log(data);
             highscore = data;
-            divBooks.classList.add('visible')
         })
         .then(updateUI);
 }
 
-updateUI();
+// ========================
+// Collapsible
+// var coll = document.getElementsByClassName("collapsible");
+// var i;
+
+// for (i = 0; i < coll.length; i++) {
+//   coll[i].addEventListener("click", function() {
+//     this.classList.toggle("active");
+//     var content = this.nextElementSibling;
+//     if (content.style.display === "block") {
+//       content.style.display = "none";
+//     } else {
+//       content.style.display = "block";
+//     }
+//   });
+// }

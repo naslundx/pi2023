@@ -34,14 +34,15 @@
       <div id="info">
         <p>Idag (14/3) är pi-dagen! Pi är ett <b>irrationellt</b> tal, vilket betyder att det består av oändligt många decimaler i ett mönster som aldrig upprepas.</p>
         <p>De flesta känner till talet som <b>3,14</b>, och det räcker oftast bra nog. Men <i>någon</i> där ute borde ha ett sjätte sinne för decimalerna. Här kan du testa din intuition och lära dig mer om talet \(\pi\).</p>
-        <b>Mer info</b>
       </div>
-      <div id="gamecontainer">
+      <div id="gamecontainer" class="focused">
         <div id="start">
           <p>Prova din intuition här!</p>
           <form onsubmit="return false;">
-            <input type="text" id="name" placeholder="namn" oninput="editingName()" maxlength="20" required/>
-            <button onclick="start()" class="button" disabled><span>Spela!</span></button>
+            <div class="start-flexcontainer">
+              <input type="text" id="name" placeholder="namn" oninput="editingName()" maxlength="20" required/>
+              <button onclick="start()" class="button" disabled><span>Spela!</span></button>
+            </div>
           </form>
         </div>
         <div id="guess" class="invisible">
@@ -83,6 +84,26 @@
 
           <button class="button" onclick="playAgain()"><span>Spela igen!</span></button>
         </div>
+      </div>
+      <div id="teaching">
+        <details>
+          <summary>Hur firar man pi-dagen?</summary>
+          <p>Det är upp till var och en. Jag rekommenderar att <a href="https://www.ica.se/recept/ananaspaj-3273/">baka ananaspaj</a> (PIneapple PIe).</p>
+        </details>
+        <details>
+          <summary>Går det egentligen att bli bättre på detta?</summary>
+          <p>Nej, det här är bara för skojs skull. Det finns inget mönster i decimalerna, alls, så det finns inget att lära sig.</p>
+        </details>
+        <details>
+          <summary>Hur många decimaler finns det?</summary>
+          <p>Talet pi har oändligt många decimaler. Med superdatorer har 50 biljoner decimaler räknats fram. Det är ett vanligt test för att prova nya superdatorer, men att ha så många decimaler har ingen praktisk nytta.</p>
+        </details>
+        <details>
+          <summary>Hur räknar man ut pi?</summary>
+          <p>Det finns många sätt. Ett alternativ är att rita upp en cirkel, mäta dess omkrets och dividera med dess diameter. Men det är svårt att både rita och mäta en cirkel tillräckligt exakt. Istället används formler för att räkna ut pi. En som vi känner till är denna:</p>
+          <p class="math">\[\pi = \sqrt{6} \cdot \sqrt{1 + \frac{1}{2^2} + \frac{1}{3^2} + \frac{1}{4^2} + \frac{1}{5^2} + \cdots}\]</p>
+          <p>Ju fler termer som läggs till (enligt samma mönster) under roten ur-tecknet, desto närmare blir svaret. Denna är enkel men kräver också väldigt många termer för att ens få två decimaler korrekt. Andra alternativ är t.ex. den mycket mer komplicerade <a href="https://en.wikipedia.org/wiki/Chudnovsky_algorithm">Chudnovsky-algoritmen</a>.</p>
+        </details>
       </div>
       <div id="bookad">
         <p>Hoppas du gillade sidan! Jag heter <a href="https://www.linkedin.com/in/naslundx/">Marcus Näslund</a> och om du vill veta mer om var pi eller annan matematik används i verkligheten, kika gärna in mina böcker:</p>
