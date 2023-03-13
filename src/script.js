@@ -203,5 +203,3 @@ function getHighscore() {
         .then(updateUI);
 }
 
-
-getHighscore();
