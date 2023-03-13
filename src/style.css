@@ -129,6 +129,10 @@ div p:not(:first-of-type) {
     color: white;
 }
 
+#gamestats.table tr td:first-of-type {
+    font-weight: bold;
+}
+
 /* Start */
 
 .start-flexcontainer {
@@ -164,7 +168,7 @@ p#secondsdescriptor {
 }
 
 #guess button {
-    /* width: 100px; */
+    width: 100%;
 }
 
 input#name {

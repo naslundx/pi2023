@@ -58,7 +58,7 @@ function encodeQueryData(url, data) {
  }
 
  function fillTable(selector, columns, data) {
-    console.log(selector, columns, data);
+    //console.log(selector, columns, data);
 
     const table = document.querySelector(selector);
     const rows = document.querySelectorAll(selector + " tr:not(:first-child)")
@@ -200,13 +200,41 @@ const DISTANCE_MAPPING = [
     },
 ]
 
-const THIRD_MAPPING = [
+const MASS_MAPPING = [
     {
-        maximum: null,
+        maximum: 1000,
         conversion: 1,
         decimals: 1,
-        suffix: 'yada'
-    }
+        suffix: 'gram'
+    },
+    {
+        maximum: 1000*1000,
+        conversion: 1000,
+        decimals: 2,
+        suffix: 'kilogram'
+    },
+    {
+        maximum: 1000*1000*1000,
+        conversion: 1000*1000,
+        decimals: 2,
+        suffix: 'ton'
+    },
+    {
+        maximum: 1000*1000*1000,
+        conversion: 1000*1000*7000,
+        decimals: 2,
+        suffix: 'eiffeltorn'
+    },
+    {
+        maximum: null,
+        conversion: 6000000000000000000000000,
+        decimals: 3,
+        suffix: 'jordklot'
+    },
+]
+
+const MAPPINGS = [
+    TIME_MAPPING, DISTANCE_MAPPING, MASS_MAPPING
 ]
 
 function rangeInput() {
@@ -222,7 +250,7 @@ function rangeInput() {
         secondsdescriptor.innerText = `(${baseValue} millimeter)`;
     }
     else if (game_index == 3) {
-        descriptor.innerText = prettyOutput(logValue, THIRD_MAPPING);
+        descriptor.innerText = prettyOutput(logValue, MASS_MAPPING);
         secondsdescriptor.innerText = `(${baseValue} gram)`;
     }
 }
@@ -237,7 +265,7 @@ function prettyOutput(value, mapping) {
 }
 
 function updateUI() {
-    console.log(game_index);
+    //console.log(game_index);
     ctrGame.classList.remove('faded');
 
     [ctrStart, ctrGuess, ctrGamestats, ctrHighscore].forEach(x => {
@@ -246,7 +274,19 @@ function updateUI() {
 
     if (game_index == 4) {
         ctrGamestats.classList.remove("invisible");
-        fillTable('table#gamestats', ['value', 'guess', 'position'], gameStats.stats);
+        let columns = ['value', 'guess', 'position'];
+        //console.log(gameStats.stats);
+        let index = 0;
+        let stats = (gameStats.stats || []).map(({value, guess, position}) => {
+            let prettyGuess = prettyOutput(guess, MAPPINGS[index]);
+            let prettyCorrect = prettyOutput(position, MAPPINGS[index++]);
+            return {
+                value,
+                position: prettyCorrect, // `${position}<br>(${prettyCorrect})`,
+                guess: prettyGuess, //`${guess}<br>(${prettyGuess})`,
+            }
+        });
+        fillTable('table#gamestats', columns, stats);
         scoreSpan.innerText = gameStats.score;
         return;
     }
@@ -266,7 +306,7 @@ function updateUI() {
     const descs = {
         1: 'En person läser upp \\(\\pi\\) för dig. Om du får höra en decimal i taget, varje sekund, utan uppehåll, hur länge måste du vänta innan du hör',
         2: 'Någon har ritat upp \\(\\pi\\) längs en raksträcka. Om varje decimal tar upp bara en millimeter, hur långt måste du vandra innan du stöter på',
-        3: 'yada yada yada',
+        3: 'En fågel hämtar ett litet sandkorn, som väger 1 gram, och lägger i en hög framför dina fötter. Sedan piper den ut en decimal och hämtar ett nytt sandkorn. Hur mycket väger sandhögen när du hör',
     };
     descSpan.innerText = descs[game_index];
     valueSpan.innerText = generated_string; 
@@ -290,7 +330,7 @@ function start() {
     fetch(url)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            //console.log(data);
             game_id = data.game_id;
             user_id = data.user_id;            
         })
@@ -307,10 +347,10 @@ function next() {
     fetch(url)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            //console.log(data);
 
             game_index++;
-            rangeSelector.value = 0;
+            rangeSelector.value = 1;
             rangeInput();
 
             if (data.status == "done") {
@@ -335,7 +375,7 @@ function guess() {
     fetch(url)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            //console.log(data);
         })
         .then(next)
         .finally(() => {
@@ -358,7 +398,7 @@ function getGameStats() {
     fetch(url)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            //console.log(data);
             gameStats = data;
         })
         .then(updateUI);
@@ -369,25 +409,8 @@ function getHighscore() {
     fetch('highscore')
         .then(response => response.json())
         .then((data) => {
-            console.log(data);
+            //console.log(data);
             highscore = data;
         })
         .then(updateUI);
 }
-
-// ========================
-// Collapsible
-// var coll = document.getElementsByClassName("collapsible");
-// var i;
-
-// for (i = 0; i < coll.length; i++) {
-//   coll[i].addEventListener("click", function() {
-//     this.classList.toggle("active");
-//     var content = this.nextElementSibling;
-//     if (content.style.display === "block") {
-//       content.style.display = "none";
-//     } else {
-//       content.style.display = "block";
-//     }
-//   });
-// }
