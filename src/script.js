@@ -145,11 +145,59 @@ const TIME_MAPPING = [
 
 const DISTANCE_MAPPING = [
     {
-        maximum: null,
+        maximum: 100,
         conversion: 1,
         decimals: 1,
+        suffix: 'millimeter'
+    },
+    {
+        maximum: 1000,
+        conversion: 10,
+        decimals: 1,
+        suffix: 'centimeter'
+    },
+    {
+        maximum: 1000*10,
+        conversion: 1000,
+        decimals: 1,
         suffix: 'meter'
-    }
+    },
+    {
+        maximum: 1000*1000*100,
+        conversion: 1000*1000,
+        decimals: 2,
+        suffix: 'kilometer'
+    },
+    {
+        maximum: 1000*1000*1000,
+        conversion: 1000*1000*10,
+        decimals: 2,
+        suffix: 'mil'
+    },
+    {
+        maximum: 1000*1000*40075*10000,
+        conversion: 1000*1000*40075,
+        decimals: 3,
+        suffix: 'x jordens omkrets'
+    },
+    {
+        maximum: 1000*1000*148000000*10000,
+        conversion: 1000*1000*148000000,
+        decimals: 3,
+        suffix: 'x avståndet till solen'
+    },
+    {
+        maximum: 9460730472580800*1000*1000*9301600000,
+        conversion: 9460730472580800*1000*1000,
+        decimals: 3,
+        suffix: 'ljusår'
+    },
+    {
+        maximum: null,
+        conversion: 9460730472580800*1000*1000*93016000000,
+        decimals: 3,
+        suffix: 'x observerbera universums diameter'
+    },
 ]
 
 const THIRD_MAPPING = [
@@ -167,15 +215,15 @@ function rangeInput() {
 
     if (game_index == 1) {
         descriptor.innerText = prettyOutput(logValue, TIME_MAPPING);
-        secondsdescriptor.innerText = `${baseValue} sekunder`;
+        secondsdescriptor.innerText = `(${baseValue} sekunder)`;
     }
     else if (game_index == 2) {
         descriptor.innerText = prettyOutput(logValue, DISTANCE_MAPPING);
-        secondsdescriptor.innerText = `${baseValue} meter`;
+        secondsdescriptor.innerText = `(${baseValue} millimeter)`;
     }
     else if (game_index == 3) {
         descriptor.innerText = prettyOutput(logValue, THIRD_MAPPING);
-        secondsdescriptor.innerText = `${baseValue} yadas`;
+        secondsdescriptor.innerText = `(${baseValue} gram)`;
     }
 }
 
@@ -186,14 +234,6 @@ function prettyOutput(value, mapping) {
             return `${prettyValue} ${suffix}`;
         }
     }
-}
-
-function prettyDistanceOutput(value) {
-    return `${value} meter`;
-}
-
-function prettyThirdOutput(value) {
-    return `${value} yadayadas`;
 }
 
 function updateUI() {

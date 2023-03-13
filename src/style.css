@@ -64,12 +64,18 @@ p {
     line-height: 2rem;
 }
 
-p:not(.math) {
+p:not(.math), summary {
     font-family: 'Lato', sans-serif;
 }
 
 div p:not(:first-of-type) {
     margin-top: 1rem;
+}
+
+@media only screen and (max-width: 768px) {
+    #info, #gamecontainer, #bookad, #teaching {
+        border-radius: 0;
+    }
 }
 
 /* Decimals */
@@ -154,6 +160,7 @@ p#descriptor {
 
 p#secondsdescriptor {
     font-size: small;
+    margin-top: 0;
 }
 
 #guess button {
@@ -292,6 +299,12 @@ cursor: pointer;
 
 .bookitem img {
     width: 100%;
+}
+
+@media only screen and (max-width: 650px) {
+    .bookcontainer {
+        flex-direction: column;
+    }
 }
 
 /* Collapsing */
