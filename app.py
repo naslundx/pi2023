@@ -92,8 +92,8 @@ def endpoint_start():
     user_id = request.args.get('user_id')
     username = request.args.get('name')
 
-    if not username:
-        return { "error": "no name" }, 400
+    if not username or not (2 < len(username) < 25):
+        return { "error": "incorrect name" }, 400
 
     if not user_id or user_id == 'null':
         # skapa ny user
@@ -196,7 +196,7 @@ def endpoint_guess():
     # TODO validera guess
     try:
         generated_id = int(generated_id)
-        guess = int(guess)
+        guess = int(float(guess))
     except (ValueError, AssertionError):
         return {"error": "invalid"}, 400
 
@@ -301,7 +301,7 @@ def highscore():
             ORDER BY 
                 score
             LIMIT 
-                5
+                10
         ) t2
         ON
             users.id = t2.user_id

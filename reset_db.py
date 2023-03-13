@@ -34,8 +34,8 @@ create_table_query = '''
         id SERIAL PRIMARY KEY,
         user_id UUID NOT NULL,
 
-        value BIGINT NOT NULL,
-        position BIGINT NOT NULL,
+        value DECIMAL NOT NULL,
+        position DECIMAL NOT NULL,
 
         CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id)
     );
@@ -51,7 +51,7 @@ create_table_query = '''
         generated_id INT NOT NULL UNIQUE,
         game_id UUID NOT NULL,
         
-        guess BIGINT NOT NULL,
+        guess DECIMAL NOT NULL,
 
         CONSTRAINT fk_generated FOREIGN KEY(generated_id) REFERENCES generated(id),
         CONSTRAINT fk_game FOREIGN KEY(game_id) REFERENCES game(id)

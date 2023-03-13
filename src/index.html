@@ -40,7 +40,7 @@
           <p>Prova din intuition här!</p>
           <form onsubmit="return false;">
             <div class="start-flexcontainer">
-              <input type="text" id="name" placeholder="namn" oninput="editingName()" maxlength="20" required/>
+              <input type="text" id="name" placeholder="Ditt namn" oninput="editingName()" maxlength="20" required/>
               <button onclick="start()" class="button" disabled><span>Spela!</span></button>
             </div>
           </form>
@@ -61,7 +61,7 @@
           </div>
         </div>
         <div id="gamestats" class="invisible">
-          <p>Liksom i golf gäller det att få så få poäng som möjligt. Såhär svarade du:</p>
+          <p>Liksom i golf gäller det att få så få poäng som möjligt. Så här svarade du:</p>
           <table id="gamestats" class="table">
             <tr>
               <th>Decimaler</th>
@@ -103,6 +103,11 @@
           <p>Det finns många sätt. Ett alternativ är att rita upp en cirkel, mäta dess omkrets och dividera med dess diameter. Men det är svårt att både rita och mäta en cirkel tillräckligt exakt. Istället används formler för att räkna ut pi. En som vi känner till är denna:</p>
           <p class="math">\[\pi = \sqrt{6} \cdot \sqrt{1 + \frac{1}{2^2} + \frac{1}{3^2} + \frac{1}{4^2} + \frac{1}{5^2} + \cdots}\]</p>
           <p>Ju fler termer som läggs till (enligt samma mönster) under roten ur-tecknet, desto närmare blir svaret. Denna är enkel men kräver också väldigt många termer för att ens få två decimaler korrekt. Andra alternativ är t.ex. den mycket mer komplicerade <a href="https://en.wikipedia.org/wiki/Chudnovsky_algorithm">Chudnovsky-algoritmen</a>.</p>
+        </details>
+        <details>
+          <summary>Finns alla kombinationer med i pi?</summary>
+          <p>Det vet vi faktiskt inte. Vi vet att decimalerna aldrig upprepar sig, och fortsätter i all oändlighet, men vi vet inte om alla siffror förekommer lika ofta. Det är möjligt att siffran 7 helt plötsligt försvinner efter 100 miljarder decimaler, och därför kan vi inte hitta alla sifferkombinationer som innehåller en sjua.</p>
+          <p>Om alla decimaler förekommer lika ofta kallas talet för "normalt", och den egenskapen är inte (ännu?) bevisad för talet pi.</p>
         </details>
       </div>
       <div id="bookad">

@@ -220,7 +220,7 @@ const MASS_MAPPING = [
         suffix: 'ton'
     },
     {
-        maximum: 1000*1000*1000,
+        maximum: 1000*1000*7000*1000,
         conversion: 1000*1000*7000,
         decimals: 2,
         suffix: 'eiffeltorn'
@@ -238,7 +238,7 @@ const MAPPINGS = [
 ]
 
 function rangeInput() {
-    logValue = Math.pow(1.005, rangeSelector.value);
+    logValue = Math.pow(1.003, rangeSelector.value);
     let baseValue = Math.round(logValue);
 
     if (game_index == 1) {
@@ -312,6 +312,7 @@ function updateUI() {
     valueSpan.innerText = generated_string; 
     indexSpan.innerText = game_index;
     ctrGuess.classList.remove("invisible");
+    MathJax.typeset();
 }
 
 // ==================
