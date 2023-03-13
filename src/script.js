@@ -6,7 +6,7 @@ const numberInput = document.querySelector("#sequence")
 const statsParagraph = document.querySelector("#stats");
 const highScoreTable = document.querySelector("#highscore table");
 const rangeSelector = document.querySelector("#myRange")
-const timeDescriptor = document.querySelector("#timedescriptor")
+const descriptor = document.querySelector("#descriptor")
 const descSpan = document.querySelector("span#desc")
 const valueSpan = document.querySelector("span#value")
 const indexSpan = document.querySelector("span#index")
@@ -80,25 +80,41 @@ move();
 // =================
 // Guess UI
 
-function rangeInput() {
-    timeDescriptor.innerText = prettyTimeOutput(rangeSelector.value);
-}
-
 function playAgain() {
     game_index=0;
     start();
 }
 
-function prettyTimeOutput(seconds) {
+function rangeInput() {
+    if (game_index == 1) {
+        descriptor.innerText = prettyTimeOutput(rangeSelector.value);
+    }
+    else if (game_index == 2) {
+        descriptor.innerText = prettyDistanceOutput(rangeSelector.value);
+    }
+    else if (game_index == 3) {
+        descriptor.innerText = prettyThirdOutput(rangeSelector.value);
+    }
+}
+
+function prettyTimeOutput(value) {
     // TODO depend on type
 
-    if (seconds < 60) {
-        return `${seconds} sekunder`
-    }
-    const totalMs = seconds * 1000;
-    const result = new Date(totalMs).toISOString().slice(11, 19);
+    // if (seconds < 60) {
+        return `${value} sekunder`
+    // }
+    // const totalMs = seconds * 1000;
+    // const result = new Date(totalMs).toISOString().slice(11, 19);
 
-    return result;
+    // return result;
+}
+
+function prettyDistanceOutput(value) {
+    return `${value} meter`;
+}
+
+function prettyThirdOutput(value) {
+    return `${value} yadayadas`;
 }
 
 function updateUI() {
@@ -163,6 +179,9 @@ function next() {
         .then((response) => response.json())
         .then((data) => {
             game_index++;
+            rangeSelector.value = 0;
+            rangeInput();
+
             console.log(data);
             if (data.status == "done") {
                 getGameStats();

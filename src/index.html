@@ -39,8 +39,10 @@
       <div id="gamecontainer">
         <div id="start">
           <p>Prova din intuition här!</p>
-          <input type="text" id="name" placeholder="namn"/>
-          <button onclick="start()" class="button"><span>Spela!</span></button>
+          <form onsubmit="return false;">
+            <input type="text" id="name" placeholder="namn" required/>
+            <button onclick="start()" class="button"><span>Spela!</span></button>
+          </form>
         </div>
         <div id="guess" class="invisible">
           <h2>Fråga <span id="index">1</span> av 3</h2>
@@ -58,7 +60,7 @@
         </div>
         <div id="gamestats" class="invisible">
           <p>Liksom i golf gäller det att få så få poäng som möjligt. Såhär svarade du:</p>
-          <table id="gamestats">
+          <table id="gamestats" class="table">
             <tr>
               <th>Decimaler</th>
               <th>Du svarade</th>

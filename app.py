@@ -92,6 +92,9 @@ def endpoint_start():
     user_id = request.args.get('user_id')
     username = request.args.get('name')
 
+    if not username:
+        return { "error": "no name" }, 400
+
     if not user_id or user_id == 'null':
         # skapa ny user
         sql_query = f'''
