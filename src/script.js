@@ -100,6 +100,8 @@ function playAgain() {
     start();
 }
 
+// 4085039356541192
+
 const TIME_MAPPING = [
     {
         maximum: 60*2,
@@ -126,16 +128,28 @@ const TIME_MAPPING = [
         suffix: 'dygn'
     },
     {
+        maximum: 60*60*24*14,
+        conversion: 60*60*24*7,
+        decimals: 1,
+        suffix: 'veckor'
+    },
+    {
         maximum: 60*60*24*365*100,
         conversion: 60*60*24*365,
         decimals: 1,
         suffix: 'år'
     },
     {
-        maximum: null, //60*60*24*365*100*100000,
+        maximum: 60*60*24*365*100*100000,
         conversion: 60*60*24*365*100,
         decimals: 1,
         suffix: 'sekel'
+    },
+    {
+        maximum: null,
+        conversion: 60*60*24*365*65000000,
+        decimals: 1,
+        suffix: 'x tiden sedan dinosaurierna dog ut'
     },
 ]
 
@@ -159,13 +173,19 @@ const DISTANCE_MAPPING = [
         suffix: 'kilometer'
     },
     {
-        maximum: 100*1000*10*1000,
+        maximum: 100*1000*10*100,
         conversion: 100*1000*10,
         decimals: 1,
         suffix: 'mil'
     },
     {
-        maximum: 100*1000*40075*10000,
+        maximum: 100*1000*1600*100,
+        conversion: 100*1000*1600,
+        decimals: 1,
+        suffix: 'x Sveriges längd från norr till söder'
+    },
+    {
+        maximum: 100*1000*40075*5000,
         conversion: 100*1000*40075,
         decimals: 1,
         suffix: 'x jordens omkrets'
@@ -175,18 +195,6 @@ const DISTANCE_MAPPING = [
         conversion: 100*1000*148000000,
         decimals: 1,
         suffix: 'x avståndet till solen'
-    },
-    {
-        maximum: 9460730472580800*100*1000*9301600000,
-        conversion: 9460730472580800*100*1000,
-        decimals: 3,
-        suffix: 'ljusår'
-    },
-    {
-        maximum: null,
-        conversion: 9460730472580800*100*1000*93016000000,
-        decimals: 3,
-        suffix: 'x observerbera universums diameter'
     },
 ]
 
@@ -198,29 +206,35 @@ const MASS_MAPPING = [
         suffix: 'gram'
     },
     {
-        maximum: 1000*1000,
+        maximum: 1000*100,
         conversion: 1000,
         decimals: 2,
         suffix: 'kilogram'
     },
     {
-        maximum: 1000*1000*10000,
+        maximum: 1000*100*1,
+        conversion: 1000*100,
+        decimals: 2,
+        suffix: 'jättepandor'
+    },
+    {
+        maximum: 1000*1000*1000,
         conversion: 1000*1000,
         decimals: 2,
         suffix: 'ton'
     },
     {
-        maximum: null, // 1000*1000*7000*1000,
+        maximum: 1000*1000*7000*100,
         conversion: 1000*1000*7000,
         decimals: 1,
         suffix: 'eiffeltorn'
     },
-    // {
-    //     maximum: null,
-    //     conversion: 6000000000000000000000000,
-    //     decimals: 3,
-    //     suffix: 'jordklot'
-    // },
+    {
+        maximum: null,
+        conversion: 5896700810*1000,
+        decimals: 3,
+        suffix: 'gizapyramider'
+    },
 ]
 
 const MAPPINGS = [
