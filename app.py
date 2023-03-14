@@ -156,7 +156,7 @@ def endpoint_next():
         return { "status": "done" }
 
     # Generera ny
-    correct_position = random.randint(1, 1_000_000_000)
+    correct_position = random.randint(1, 100_000_000_000)
     value = get_decimals(correct_position)
     sql_query = f'''
         INSERT INTO generated(user_id, value, position)

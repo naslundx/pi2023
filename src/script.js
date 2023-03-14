@@ -134,14 +134,14 @@ const TIME_MAPPING = [
     {
         maximum: 60*60*24*365*100*100000,
         conversion: 60*60*24*365*100,
-        decimals: 2,
+        decimals: 1,
         suffix: 'århundraden'
     },
     {
         maximum: null,
-        conversion: 60*60*24*365*14700000000,
-        decimals: 3,
-        suffix: 'x tiden sedan Big Bang'
+        conversion: 60*60*24*365*4500000000,
+        decimals: 1,
+        suffix: 'x jordens ålder'
     },
 ]
 
@@ -149,54 +149,48 @@ const DISTANCE_MAPPING = [
     {
         maximum: 100,
         conversion: 1,
-        decimals: 1,
-        suffix: 'millimeter'
-    },
-    {
-        maximum: 1000,
-        conversion: 10,
-        decimals: 1,
+        decimals: 0,
         suffix: 'centimeter'
     },
     {
-        maximum: 1000*10,
-        conversion: 1000,
+        maximum: 100*1000,
+        conversion: 100,
         decimals: 1,
         suffix: 'meter'
     },
     {
-        maximum: 1000*1000*100,
-        conversion: 1000*1000,
+        maximum: 100*1000*100,
+        conversion: 100*1000,
         decimals: 2,
         suffix: 'kilometer'
     },
     {
-        maximum: 1000*1000*1000,
-        conversion: 1000*1000*10,
+        maximum: 100*1000*10*1000,
+        conversion: 100*1000*10,
         decimals: 2,
         suffix: 'mil'
     },
     {
-        maximum: 1000*1000*40075*10000,
-        conversion: 1000*1000*40075,
+        maximum: 100*1000*40075*10000,
+        conversion: 100*1000*40075,
         decimals: 3,
         suffix: 'x jordens omkrets'
     },
     {
-        maximum: 1000*1000*148000000*10000,
-        conversion: 1000*1000*148000000,
+        maximum: 100*1000*148000000*10000,
+        conversion: 100*1000*148000000,
         decimals: 3,
         suffix: 'x avståndet till solen'
     },
     {
-        maximum: 9460730472580800*1000*1000*9301600000,
-        conversion: 9460730472580800*1000*1000,
+        maximum: 9460730472580800*100*1000*9301600000,
+        conversion: 9460730472580800*100*1000,
         decimals: 3,
         suffix: 'ljusår'
     },
     {
         maximum: null,
-        conversion: 9460730472580800*1000*1000*93016000000,
+        conversion: 9460730472580800*100*1000*93016000000,
         decimals: 3,
         suffix: 'x observerbera universums diameter'
     },
@@ -206,7 +200,7 @@ const MASS_MAPPING = [
     {
         maximum: 1000,
         conversion: 1,
-        decimals: 1,
+        decimals: 0,
         suffix: 'gram'
     },
     {
@@ -216,23 +210,23 @@ const MASS_MAPPING = [
         suffix: 'kilogram'
     },
     {
-        maximum: 1000*1000*1000,
+        maximum: 1000*1000*10000,
         conversion: 1000*1000,
         decimals: 2,
         suffix: 'ton'
     },
     {
-        maximum: 1000*1000*7000*1000,
+        maximum: null, // 1000*1000*7000*1000,
         conversion: 1000*1000*7000,
-        decimals: 2,
+        decimals: 1,
         suffix: 'eiffeltorn'
     },
-    {
-        maximum: null,
-        conversion: 6000000000000000000000000,
-        decimals: 3,
-        suffix: 'jordklot'
-    },
+    // {
+    //     maximum: null,
+    //     conversion: 6000000000000000000000000,
+    //     decimals: 3,
+    //     suffix: 'jordklot'
+    // },
 ]
 
 const MAPPINGS = [
@@ -249,7 +243,7 @@ function rangeInput() {
     }
     else if (game_index == 2) {
         descriptor.innerText = prettyOutput(logValue, DISTANCE_MAPPING);
-        secondsdescriptor.innerText = `(${baseValue} millimeter)`;
+        secondsdescriptor.innerText = `(${baseValue} centimeter)`;
     }
     else if (game_index == 3) {
         descriptor.innerText = prettyOutput(logValue, MASS_MAPPING);
@@ -318,9 +312,9 @@ function updateUI() {
 
     // Game info
     const descs = {
-        1: 'En person läser upp \\(\\pi\\) för dig. Om du får höra en decimal i taget, varje sekund, utan uppehåll, hur länge måste du vänta innan du hör',
-        2: 'Någon har ritat upp \\(\\pi\\) längs en raksträcka. Om varje decimal tar upp bara en millimeter, hur långt måste du vandra innan du stöter på',
-        3: 'En fågel hämtar ett litet sandkorn, som väger 1 gram, och lägger i en hög framför dina fötter. Sedan piper den ut en decimal och hämtar ett nytt sandkorn. Hur mycket väger sandhögen när du hör',
+        1: 'Din värsta fiende läser upp \\(\\pi\\) för dig. Du får höra en decimal i taget, varje sekund. Hur länge måste du lyssna innan du hör',
+        2: 'Kommunen ritar upp \\(\\pi\\) på vägen utanför ditt hus. Varje decimal tar bara upp bara en centimeter. Hur långt måste du vandra längs vägen innan du stöter på',
+        3: 'En fågel hämtar ett litet sandkorn och lägger det i en hög framför dina fötter. Sandkornet väger bara 1 gram. Sedan piper den ut en decimal och hämtar ett nytt sandkorn. Hur mycket väger sandhögen när du hör',
     };
     descSpan.innerText = descs[game_index];
     valueSpan.innerText = generated_string; 

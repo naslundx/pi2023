@@ -52,7 +52,7 @@
 
           <div class="slidecontainer">
             <!-- https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
-            <input type="range" min="1" max="17000" value="1" class="slider" id="myRange" oninput="rangeInput()">
+            <input type="range" min="1" max="12000" value="1" class="slider" id="myRange" oninput="rangeInput()">
           </div>
           <p id="descriptor">0 sekunder</p>
           <p id="secondsdescriptor">0 sekunder</p>
@@ -98,18 +98,35 @@
           <p>Det är upp till var och en. Jag rekommenderar att <a href="https://www.ica.se/recept/ananaspaj-3273/">baka ananaspaj</a> (PIneapple PIe).</p>
         </details>
         <details>
+          <summary>Är det här den enda pi-dagen?</summary>
+          <p>Idag är den mest uppmärksammade pi-dagen, eftersom 14 mars är en bra approximation till pi (3,14). Andra kandidater är till exempel 22 juli, eftersom \(22/7 \approx 3.14\).</p>
+        </details>
+        <details>
+          <summary>Är siffrorna här på riktigt eller på skoj?</summary>
+          <p>Siffrorna är äkta! 100 biljoner decimaler (nuvarande världsrekord) har räknats fram med hjälp av Googles superdatorer och gjorts fritt tillgängliga via deras <a href="https://pi.delivery/">PI API"</a>. Alla frågor på sidan är nogrannt matematiskt korrekta.</p>
+        </details>
+        <details>
           <summary>Går det egentligen att bli bättre på detta?</summary>
           <p>Nej, det här är bara för skojs skull. Det finns inget mönster i decimalerna, alls, så det finns inget att lära sig.</p>
+          <p>Men det betyder inte att det inte förekommer "spännande" kombinationer. Vi hittar <b>7777777</b> (sju sjuor) redan efter 3346228 decimaler.</p>
         </details>
         <details>
           <summary>Hur många decimaler finns det?</summary>
-          <p>Talet pi har oändligt många decimaler. Med superdatorer har 50 biljoner decimaler räknats fram. Det är ett vanligt test för att prova nya superdatorer, men att ha så många decimaler har ingen praktisk nytta.</p>
+          <p>Talet pi har oändligt många decimaler och med superdatorer har 100 biljoner decimaler räknats fram. Det är ett vanligt test för att prova nya superdatorer, men att ha så många decimaler har ingen praktisk nytta.</p>
+        </details>
+        <details>
+          <summary>Hur mycket tid har du lagt på pi-decimaler?</summary>
+          <p>Nästa fråga, tack.</p>
+        </details>
+        <details>
+          <summary>Hur många decimaler behöver vi egentligen veta?</summary>
+          <p>Du vet troligtvis så många som du behöver. För de ingenjörsmässigt allra mest komplexa rymduppdragen används omkring 15 decimaler (enligt NASA) och med bara 37 kan vi beräkna universums storlek med en atoms marginal. Alla andra decimaler... är bara coola. 😎</p>
         </details>
         <details>
           <summary>Hur räknar man ut pi?</summary>
-          <p>Det finns många sätt. Ett alternativ är att rita upp en cirkel, mäta dess omkrets och dividera med dess diameter. Men det är svårt att både rita och mäta en cirkel tillräckligt exakt. Istället används formler för att räkna ut pi. En som vi känner till är denna:</p>
+          <p>Det finns många sätt. Du kan såklart rita upp en cirkel, mäta dess omkrets och dividera med dess diameter. Men det är svårt att både rita och mäta en cirkel tillräckligt exakt. Det finns flera olika formler för att räkna ut pi, ett exempel är denna:</p>
           <p class="math">\[\pi = \sqrt{6} \cdot \sqrt{1 + \frac{1}{2^2} + \frac{1}{3^2} + \frac{1}{4^2} + \frac{1}{5^2} + \cdots}\]</p>
-          <p>Ju fler termer som läggs till (enligt samma mönster) under roten ur-tecknet, desto närmare blir svaret. Denna är enkel men kräver också väldigt många termer för att ens få två decimaler korrekt. Andra alternativ är t.ex. den mycket mer komplicerade <a href="https://en.wikipedia.org/wiki/Chudnovsky_algorithm">Chudnovsky-algoritmen</a>.</p>
+          <p>Ju fler termer som läggs till (enligt samma mönster) under roten ur-tecknet, desto närmare blir svaret det sanna värdet av pi. Andra alternativ är t.ex. den mycket mer komplicerade <a href="https://en.wikipedia.org/wiki/Chudnovsky_algorithm">Chudnovsky-algoritmen</a>.</p>
         </details>
         <details>
           <summary>Finns alla kombinationer med i pi?</summary>
