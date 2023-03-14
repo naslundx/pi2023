@@ -9,6 +9,10 @@ a {
     /* text-decoration: none; */
 }
 
+a:hover {
+    color:slateblue;
+}
+
 body {
     background: rgb(122,114,255);
     background: linear-gradient(90deg, rgba(122,114,255,0.3) 0%, rgba(217,199,255,0.3) 50%, rgba(122,114,255,0.3) 100%);
@@ -337,6 +341,10 @@ details {
     border: 1px solid black;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+details:hover, details[open] {
+    background-color: white;
 }
   
 details summary {

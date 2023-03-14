@@ -33,11 +33,11 @@
       </h1>
       <div id="info">
         <p>Idag (14/3) är pi-dagen! Pi är ett <b>irrationellt</b> tal, vilket betyder att det består av oändligt många decimaler i ett mönster som aldrig upprepas.</p>
-        <p>De flesta känner till talet som <b>3,14</b>, och det räcker oftast bra nog. Men <i>någon</i> där ute borde ha ett sjätte sinne för decimalerna. Här kan du testa din intuition och lära dig mer om talet \(\pi\).</p>
+        <p>Oändligt många decimaler är <i>ofattbart</i> mycket, men här kommer ett sätt att försöka förstå vad det innebär. Testa ditt sjätte sinne och öva upp din intuition för decimalerna i talet \(\pi\) med hjälp av spelet nedan!</p>
       </div>
       <div id="gamecontainer" class="focused">
         <div id="start">
-          <p>Prova din intuition här!</p>
+          <h2>Prova din intuition här!</h2>
           <form onsubmit="return false;">
             <div class="start-flexcontainer">
               <input type="text" id="name" placeholder="Ditt namn" oninput="editingName()" maxlength="20" required/>
@@ -69,7 +69,7 @@
               <th>Rätt svar</th>
             </tr>
           </table>
-          <p>Om vi summerar hur många sekunder, millimeter och gram det skiljer fick du totalt <span id="gamescore">0</span> poäng!</p></p>
+          <p>Om vi summerar hur många sekunder, centimeter och gram dina svar skiljer sig från facit fick du totalt <span id="gamescore">0</span> poäng!</p>
           <button class="button" onclick="toHighscore()"><span>Se topplistan</span></button>
         </div>
         <div id="highscore" class="invisible">
@@ -93,6 +93,7 @@
         </div>
       </div>
       <div id="teaching">
+        <h2>Frågor och svar</h2>
         <details>
           <summary>Hur firar man pi-dagen?</summary>
           <p>Det är upp till var och en. Jag rekommenderar att <a href="https://www.ica.se/recept/ananaspaj-3273/">baka ananaspaj</a> (PIneapple PIe).</p>

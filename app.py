@@ -16,12 +16,12 @@ DB_CONN = psycopg2.connect(DB_URI, sslmode='require')
 
 # TODO secure all queries
 
-def db_exec(query, get_value=False):
-    print(query)
+def db_exec(query, get_value=False, params=None):
+    # print(query)
 
     try:
         cursor = DB_CONN.cursor()
-        cursor.execute(query)
+        cursor.execute(query, params)
         DB_CONN.commit()
         if get_value:
             id_of_new_row = cursor.fetchone()[0]
@@ -30,18 +30,18 @@ def db_exec(query, get_value=False):
     finally:
         cursor.close()
 
-def db_query(query, single=False):
-    print(query)
+def db_query(query, single=False, params=None):
+    # print(query)
 
     try:
         cursor = DB_CONN.cursor()
-        cursor.execute(query)
+        cursor.execute(query, params)
         if single:
             record = cursor.fetchone()[0]
         else:
             record = cursor.fetchall()
 
-        print(record)
+        # print(record)
         return record
     finally:
         cursor.close()
@@ -68,9 +68,9 @@ def get_score(game_id):
         ON
             guess.generated_id = generated.id
         WHERE
-            guess.game_id = '{game_id}';
+            guess.game_id = %s;
     '''
-    score = db_query(sql_query, True)
+    score = db_query(sql_query, True, (game_id,))
     return score
 
 # === FRONTEND ===
@@ -100,18 +100,18 @@ def endpoint_start():
         sql_query = f'''
             INSERT INTO users(displayname)
             VALUES
-                ('{username}')
+                (%s)
             RETURNING id;
         '''
-        user_id = db_exec(sql_query, True)
+        user_id = db_exec(sql_query, True, (username, ))
     else:
         # verify user exists
         sql_query = f'''
             SELECT COUNT(*)
             FROM users
-            WHERE id='{user_id}' AND displayname='{username}';
+            WHERE id=%s AND displayname=%s;
         '''
-        exists = db_query(sql_query, True)
+        exists = db_query(sql_query, True, (user_id, username))
         if not exists:
             return { "error": "invalid game" }, 400
 
@@ -119,10 +119,10 @@ def endpoint_start():
     sql_query = f'''
         INSERT INTO game(user_id)
         VALUES
-            ('{user_id}')
+            (%s)
         RETURNING id;
     '''
-    game_id = db_exec(sql_query, True)
+    game_id = db_exec(sql_query, True, (user_id, ))
     
     # skicka tillbaka user_id, game_id
     return {
@@ -139,9 +139,9 @@ def endpoint_next():
     sql_query = f'''
         SELECT COUNT(*)
         FROM game
-        WHERE id='{game_id}' AND user_id='{user_id}';
+        WHERE id=%s AND user_id=%s;
     '''
-    exists = db_query(sql_query, True)
+    exists = db_query(sql_query, True, (game_id, user_id))
     if not exists:
         return { "error": "invalid game" }, 400
     
@@ -149,9 +149,9 @@ def endpoint_next():
     sql_query = f'''
         SELECT COUNT(*)
         FROM guess
-        WHERE game_id='{game_id}';
+        WHERE game_id=%s;
     '''
-    count = db_query(sql_query, True)
+    count = db_query(sql_query, True, (game_id,))
     if count >= 3:
         return { "status": "done" }
 
@@ -161,10 +161,10 @@ def endpoint_next():
     sql_query = f'''
         INSERT INTO generated(user_id, value, position)
         VALUES
-            ('{user_id}', {value}, {correct_position})
+            (%s, %s, %s)
         RETURNING id;
     '''
-    generated_id = db_exec(sql_query, True)
+    generated_id = db_exec(sql_query, True, (user_id, value, correct_position))
 
     # Skicka tillbaka
     return {
@@ -186,11 +186,10 @@ def endpoint_guess():
     sql_query = f'''
         SELECT COUNT(*)
         FROM game
-        WHERE id='{game_id}' AND user_id='{user_id}';
+        WHERE id=%s AND user_id=%s;
     '''
-    count = db_query(sql_query, True)
+    count = db_query(sql_query, True, (game_id, user_id))
     if count != 1:
-        print('does not exist')
         return { "error": "invalid game" }, 400
     
     # TODO validera guess
@@ -205,9 +204,9 @@ def endpoint_guess():
         sql_query = f'''
             INSERT INTO guess(generated_id, game_id, guess)
             VALUES
-                ({generated_id}, '{game_id}', {guess});
+                (%s, %s, %s);
         '''
-        db_exec(sql_query)
+        db_exec(sql_query, False, (generated_id, game_id, guess))
     except psycopg2.errors.UniqueViolation:
         return { "error": "exists" }, 400 
        
@@ -250,11 +249,11 @@ def endpoint_game_stats():
         ON
             guess.generated_id=generated.id
         WHERE
-            game_id='{game_id}'
+            game_id=%s
         ORDER BY
             timestamp;
     '''
-    results = db_query(sql_query)
+    results = db_query(sql_query, False, (game_id, ))
 
     score = get_score(game_id)
 
@@ -360,7 +359,7 @@ def highscore():
             "score": result[3],
             "index": index+1
         } 
-        for index, result in enumerate(results[:3])
+        for index, result in enumerate(results[:5])
     ]
 
     if game_id != "null":

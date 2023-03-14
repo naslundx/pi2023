@@ -86,7 +86,7 @@ function move() {
     decimalOffset--;
     decimals.style.marginLeft = decimalOffset + "px";
     if (animateDecimals) {
-        setTimeout(move, 20);
+        setTimeout(move, 10);
     }
 }
 
