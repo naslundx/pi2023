@@ -61,8 +61,10 @@ function encodeQueryData(url, data) {
     //console.log(selector, columns, data);
 
     const table = document.querySelector(selector);
-    const rows = document.querySelectorAll(selector + " tr:not(:first-child)")
-    rows.forEach(row => row.remove());
+    const rows = document.querySelectorAll(selector + " tr")
+    for (let i=1; i<rows.length; i++) {
+        rows[i].remove();
+    }
 
     data.forEach(item => {
         let newRow = '<tr>';
@@ -265,7 +267,7 @@ function prettyOutput(value, mapping) {
 }
 
 function updateUI() {
-    //console.log(game_index);
+    console.log(game_index);
     ctrGame.classList.remove('faded');
 
     [ctrStart, ctrGuess, ctrGamestats, ctrHighscore].forEach(x => {
@@ -275,7 +277,7 @@ function updateUI() {
     if (game_index == 4) {
         ctrGamestats.classList.remove("invisible");
         let columns = ['value', 'guess', 'position'];
-        //console.log(gameStats.stats);
+        // console.log(gameStats.stats);
         let index = 0;
         let stats = (gameStats.stats || []).map(({value, guess, position}) => {
             let prettyGuess = prettyOutput(guess, MAPPINGS[index]);
@@ -291,9 +293,21 @@ function updateUI() {
         return;
     }
 
+    console.log('hello')
+
     if (game_index == 5) {
+        console.log('what')
         ctrHighscore.classList.remove("invisible");
-        fillTable('table#highscore', ['name', 'timestamp', 'score'], highscore.highscore);
+        let data = highscore.highscore;
+        let columns = ['index', 'name', 'timestamp', 'score']
+        console.log(data);
+        fillTable('table#highscore tbody', columns, data);
+        for (let i=0; i<data.length; i++) {
+            if (data[i].game_id === game_id) {
+                let my_row = document.querySelector(`table#highscore tbody tr:nth-child(${i+1})`);
+                my_row.classList.add("my-result");
+            }
+        }
         return;
     }
 
@@ -407,7 +421,8 @@ function getGameStats() {
 
 function getHighscore() {
     ctrGame.classList.add('faded')
-    fetch('highscore')
+    const url = encodeQueryData('highscore', {game_id});
+    fetch(url)
         .then(response => response.json())
         .then((data) => {
             //console.log(data);
@@ -415,3 +430,5 @@ function getHighscore() {
         })
         .then(updateUI);
 }
+
+updateUI();

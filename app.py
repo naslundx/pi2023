@@ -232,7 +232,7 @@ def stats():
 
     return {
         "user_count": user_count,
-        "latest_visit": latest_visit.strftime("%d/%m %H:%M:%S"),
+        "latest_visit": latest_visit.strftime(r"%d/%m %H:%M:%S"),
     }
 
 @app.get("/game_stats")
@@ -271,20 +271,69 @@ def endpoint_game_stats():
         "score": float(score),
     }
 
-@app.get("/highscore")
-def highscore():
+@app.get("/dump")
+def endpoint_dump():
     sql_query = '''
         SELECT
+            users.id,
+            users.displayname,
+            generated.value,
+            generated.position,
+            guess.guess,
+            game.id,
+            guess.timestamp
+        FROM
+            guess
+        INNER JOIN
+            generated
+        ON
+            guess.generated_id = generated.id
+        LEFT JOIN
+            game
+        ON
+            guess.game_id = game.id
+        LEFT JOIN
+            users
+        ON
+            generated.user_id = users.id;
+    '''
+
+    results = db_query(sql_query)    
+
+    return [
+        {
+            "user_id": result[0],
+            "user_name": result[1],
+            "decimals": result[2],
+            "position": result[3],
+            "guess": result[4],
+            "game_id": result[5],
+            "timestamp": result[6]
+        }
+        for result in results
+    ]
+
+
+@app.get("/highscore")
+def highscore():
+    game_id = request.args.get('game_id')
+
+    sql_query = '''
+        SELECT
+            t2.game_id,
             users.displayname,
             users.timestamp,
             t2.score
         FROM
+            game
+        LEFT JOIN
             users
-        INNER JOIN
+        ON
+            game.user_id = users.id
+        LEFT JOIN
         (
             SELECT
-                game.id,
-                game.user_id,
+                guess.game_id AS game_id,
                 SUM(ABS(guess.guess - generated.position)) AS score
             FROM
                 guess
@@ -292,32 +341,44 @@ def highscore():
                 generated
             ON
                 guess.generated_id = generated.id
-            LEFT JOIN
-                game
-            ON
-                guess.game_id = game.id
             GROUP BY
-                game.id
-            ORDER BY 
-                score
-            LIMIT 
-                10
+                guess.game_id
         ) t2
         ON
-            users.id = t2.user_id
+            game.id = t2.game_id
         ORDER BY
             t2.score;
     '''
 
     results = db_query(sql_query)
 
+    highscore = [
+        {
+            "game_id": result[0],
+            "name": result[1],
+            "timestamp": result[2].strftime(r"%d/%m %H:%M:%S"),
+            "score": result[3],
+            "index": index+1
+        } 
+        for index, result in enumerate(results[:3])
+    ]
+
+    if game_id != "null":
+        if game_id not in [hs["game_id"] for hs in highscore]:
+            index = 0
+            for row in results:
+                index += 1
+                if row[0] == game_id:
+                    highscore.append({
+                        "game_id": row[0],
+                        "name": row[1],
+                        "timestamp": row[2].strftime(r"%d/%m %H:%M:%S"),
+                        "score": row[3],
+                        "index": index
+                    })
+                    break
+
     return {
-        "highscore": [
-            {
-                "name": result[0],
-                "timestamp": result[1],
-                "score": result[2]
-            } 
-            for result in results 
-        ]
+        "highscore": highscore,
+        "count": len(results)
     }

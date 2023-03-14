@@ -22,9 +22,9 @@ def db_query(query):
         cursor.close()
 
 drop_table_query = '''
+    DROP TABLE users, generated, guess, game;
 '''
 create_table_query = '''
-    DROP TABLE users, generated, guess, game;
     CREATE TABLE users(
         id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
         timestamp TIMESTAMP DEFAULT current_timestamp,
@@ -58,8 +58,11 @@ create_table_query = '''
     );
 '''
 
-# db_exec(drop_table_query)
+print('a')
+db_exec(drop_table_query)
+print('b')
 db_exec(create_table_query)
+print('c')
 # db_exec(insert_table_query)
 
 DB_CONN.close()
