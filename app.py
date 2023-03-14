@@ -359,7 +359,7 @@ def highscore():
             "score": result[3],
             "index": index+1
         } 
-        for index, result in enumerate(results[:5])
+        for index, result in enumerate(results[:10])
     ]
 
     if game_id != "null":
