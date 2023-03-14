@@ -122,26 +122,20 @@ const TIME_MAPPING = [
     {
         maximum: 60*60*24*365,
         conversion: 60*60*24,
-        decimals: 2,
+        decimals: 1,
         suffix: 'dygn'
     },
     {
         maximum: 60*60*24*365*100,
         conversion: 60*60*24*365,
-        decimals: 2,
+        decimals: 1,
         suffix: 'år'
     },
     {
-        maximum: 60*60*24*365*100*100000,
+        maximum: null, //60*60*24*365*100*100000,
         conversion: 60*60*24*365*100,
         decimals: 1,
-        suffix: 'århundraden'
-    },
-    {
-        maximum: null,
-        conversion: 60*60*24*365*4500000000,
-        decimals: 1,
-        suffix: 'x jordens ålder'
+        suffix: 'sekel'
     },
 ]
 
@@ -161,25 +155,25 @@ const DISTANCE_MAPPING = [
     {
         maximum: 100*1000*100,
         conversion: 100*1000,
-        decimals: 2,
+        decimals: 1,
         suffix: 'kilometer'
     },
     {
         maximum: 100*1000*10*1000,
         conversion: 100*1000*10,
-        decimals: 2,
+        decimals: 1,
         suffix: 'mil'
     },
     {
         maximum: 100*1000*40075*10000,
         conversion: 100*1000*40075,
-        decimals: 3,
+        decimals: 1,
         suffix: 'x jordens omkrets'
     },
     {
         maximum: 100*1000*148000000*10000,
         conversion: 100*1000*148000000,
-        decimals: 3,
+        decimals: 1,
         suffix: 'x avståndet till solen'
     },
     {
